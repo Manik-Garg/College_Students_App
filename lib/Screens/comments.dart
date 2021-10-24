@@ -21,6 +21,7 @@ class Comments extends StatefulWidget {
 
 class _CommentsState extends State<Comments> {
   bool isLoaded = false;
+  String comment = "";
   List<dynamic> Comments = [];
 
   Future<bool> fetch() async {
@@ -79,7 +80,7 @@ class _CommentsState extends State<Comments> {
       }
       j++;
     }
-    print(classes[3]["uploads"][0]["comments"]);
+    //print(classes[3]["uploads"][0]["comments"]);
     await FirebaseFirestore.instance
         .collection("items")
         .doc("classes")
@@ -229,19 +230,73 @@ class _CommentsState extends State<Comments> {
                                 padding: EdgeInsets.all(8),
                                 child: Column(
                                   children: [
-                                    Text(Comments[i]["comment"].toString()),
+                                    Text(Comments[i]["comment"].toString() +
+                                        "\n"),
                                     Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(Comments[i]["rollnum"]
-                                              .toString()),
+                                          Text("By: " +
+                                              Comments[i]["rollnum"]
+                                                  .toString()),
                                           Text(
                                               "Uploaded: ${(Comments[i]["uploadTime"] as Timestamp).toDate().day}/${(Comments[i]["uploadTime"] as Timestamp).toDate().month}/${(Comments[i]["uploadTime"] as Timestamp).toDate().year}  ${(Comments[i]["uploadTime"] as Timestamp).toDate().hour}:${(Comments[i]["uploadTime"] as Timestamp).toDate().minute}"),
                                         ]),
                                   ],
                                 ));
                           },
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 10),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                width: width * 0.8,
+                                padding: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20)),
+                                    border: Border.all(
+                                        color: Colors.grey[500], width: 2)),
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: "Type Here"),
+                                  keyboardType: TextInputType.text,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      comment = value;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.send),
+                              onPressed: () async {
+                                if (comment != null && comment != "") {
+                                  setState(() {
+                                    final msg = {
+                                      "comment": comment,
+                                      "rollnum": "Student",
+                                      "uploadTime":
+                                          Timestamp.fromDate(DateTime.now())
+                                    };
+                                    Comments.insert(0, msg);
+                                    isLoaded = false;
+                                  });
+                                  await addComment().whenComplete(() {
+                                    setState(() {
+                                      isLoaded = true;
+                                      comment = "";
+                                    });
+                                  });
+                                }
+                              },
+                            )
+                          ],
                         ),
                       ),
                     ],
