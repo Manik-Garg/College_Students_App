@@ -8,6 +8,7 @@ import 'package:dummy01/Screens/Developers.dart';
 import 'package:dummy01/Screens/Marks.dart';
 import 'package:dummy01/Screens/Profile.dart';
 import 'package:dummy01/Screens/Reminders.dart';
+import 'package:dummy01/Screens/TnPSection.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -39,8 +40,7 @@ class _OurHomePageState extends State<OurHomePage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title:
-              Text("Welcome Student"),
+          title: Text("Welcome Student"),
           backgroundColor: Colors.red,
           actions: [
             Text("Sign Out"),
@@ -446,6 +446,34 @@ class _OurHomePageState extends State<OurHomePage> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => MyUploads()));
+                              },
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: height * 0.03,
+                        ),
+                        Container(
+                          height: height * 0.08,
+                          width: width * 0.8,
+                          decoration: BoxDecoration(
+                              color: Colors.white38,
+                              border: Border.all(color: Colors.red, width: 2),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          child: Center(
+                            child: ListTile(
+                              title: Center(
+                                  child: Text(
+                                "T&P Section",
+                                style: TextStyle(
+                                    color: Colors.red, fontSize: 20.0),
+                              )),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => TnP()));
                               },
                             ),
                           ),
