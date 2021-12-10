@@ -115,7 +115,7 @@ class _CommentsState extends State<Comments> {
               setState(() {
                 final msg = {
                   "comment":
-                      "18001800180018001800180018001800180018001800180018001800180018001800180018001800180018001800180018001800180018001800180018001800180018001800180018001800180018001800180018001800180018001800180018001800180018001800180018001800",
+                      "Here you can ask/answer doubts",
                   "rollnum": "1234",
                   "uploadTime": Timestamp.fromDate(DateTime.now())
                 };
